@@ -26,21 +26,26 @@ var Chocolates = connection.define ('chocolate',{
  },
  satisfaction_level: {
    type:Sequelize.INTEGER,
-   unique:true,
+   unique:false,//changed this to false bc it's not a unique because satisfaction levels can be the same for different chocolates
    allowNull:false,
  },
 });
 
-Chocolates.create({
-   chocolates :"Dark chocolate",
-   satisfaction_level:8
-   }).then(function(results){
-     // res.redirect('/?msg=Success');
-   }).catch(function(err){
-     console.log(err.errors[0].message);
-     // res.redirect('/?msg='+err.error[0].message);
-   });
-   
+// Chocolates.create({
+//    chocolates :"Dark chocolate",
+//    satisfaction_level:8
+//    }).then(function(results){
+//      // res.redirect('/?msg=Success');
+//    }).catch(function(err){
+//      console.log(err.errors[0].message);
+//      // res.redirect('/?msg='+err.error[0].message);
+//    });
+
+Chocolates.bulkCreate([
+  {chocolates: 'Sweet Chocolate', satisfaction_level:8},//these entries have to be the same as what you defined in var Chocolates like chocolates and satisfaction_level
+   {chocolates: 'White Chocolate',satisfaction_level:8},
+   {chocolates: 'Extra Sweet Chocolate', satisfaction_level:9}
+]);
 connection.sync().then(function(){
  app.listen(PORT,function(){
    console.log("Application is listening on PORT %s",PORT);
